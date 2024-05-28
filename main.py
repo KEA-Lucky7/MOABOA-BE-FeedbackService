@@ -1,7 +1,11 @@
+import sys
+
+import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.routes.feedback import feedbackRouter
+from app.config.config import LocalConfig, DevelopmentConfig
 from app.core.config import settings
 from app.core.db import Base, engine
 
@@ -30,3 +34,13 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+if __name__ == '__main__':
+    env = sys.argv[1] if len(sys.argv) > 1 else 'dev'
+
+    if env == 'local':
+        app.config = LocalConfig
+    elif env == 'dev':
+        app.config = DevelopmentConfig
+    else:
+        raise ValueError('Invalid environment name')
