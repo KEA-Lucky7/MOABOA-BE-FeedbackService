@@ -16,9 +16,9 @@ def get_db():
 
 class FeedbackService:
     @staticmethod
-    def get_feedback(db: Session, skip: int = 0, limit: int = 100):
+    def get_feedback(db: Session, i: int):
         try:
-            feedbacks = db.query(entity.PostFeedback).offset(skip).limit(limit).all()
+            feedbacks = db.query(entity.PostFeedback).offset(i).limit(1).all()
             return feedbacks
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

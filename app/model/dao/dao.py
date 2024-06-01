@@ -9,9 +9,16 @@ class PostFeedbackCreate(PostFeedbackBase):
     pass
 
 
-class PostFeedback(PostFeedbackBase):
+class PostFeedbackVO(BaseModel):
     id: int
     post_id: int
+    feedback: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class PostFeedbackRead(BaseModel):
+    id: int
+    post_id: int
+    feedback: str
