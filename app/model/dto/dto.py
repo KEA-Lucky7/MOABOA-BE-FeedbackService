@@ -1,8 +1,16 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List
 from datetime import date, datetime
 
 from sqlalchemy import Column, DateTime
+from sqlalchemy.ext.declarative import as_declarative
+
+
+@as_declarative()
+class Base:
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    __name__: str
 
 
 class ConsumptionHistory(BaseModel):
@@ -20,8 +28,11 @@ class UserConsumptions(BaseModel):
 class PostFeedbackBase(BaseModel):
     post_id: int
     feedback: str
-    created_at = Column(DateTime, default=datetime.now)
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
+
+    class Config:
+        orm_mode = True
 
 
 class PostFeedbackCreate(PostFeedbackBase):
