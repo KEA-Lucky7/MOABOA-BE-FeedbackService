@@ -45,8 +45,13 @@ HUMAN_TEMPLATE = (
 
 
 def create_feedback(request: app.model.dto.dto.UserConsumptions):
-    # if not all([request.birthDate, request.gender, request.today]):
-    #     raise HTTPException(status_code=400, detail="Missing required parameters")
+    if not request.post_id or not request.consumption_history:
+        raise HTTPException(status_code=400, detail="Missing required parameters: post_id or consumption_history")
+
+        # Check each ConsumptionHistory item in the list
+    for item in request.consumption_history:
+        if not all([item.name, item.category, item.cost, item.date]):
+            raise HTTPException(status_code=400, detail="Missing required fields in consumption_history")
 
     system_message_prompt = SystemMessagePromptTemplate.from_template(SYSTEM_TEMPLATE)
     human_message_prompt = HumanMessagePromptTemplate.from_template(HUMAN_TEMPLATE)
