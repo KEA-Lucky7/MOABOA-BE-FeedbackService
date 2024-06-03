@@ -8,9 +8,9 @@ from ...model.dto import dto
 feedbackRouter = APIRouter()
 
 @feedbackRouter.get("", response_model=dto.PostFeedbackRead)
-def read_feedback(request: str, db: Session = Depends(get_db)):
+def read_feedback(post_id: int, db: Session = Depends(get_db)):
     try:
-        feedbacks = FeedbackService.get_feedback(db=db)
+        feedbacks = FeedbackService.get_feedback(db=db, post_id=post_id)
         return feedbacks
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

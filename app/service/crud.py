@@ -17,10 +17,14 @@ def get_db():
 
 class FeedbackService:
     @staticmethod
-    def get_feedback(i: int, db: Session):
+    def get_feedback(post_id: int, db: Session):
         try:
-            feedbacks = db.query(PostFeedback).offset(i).limit(1).all()
-            return feedbacks
+            feedback = db.query(PostFeedback).filter(PostFeedback.post_id == post_id).first()
+            if feedback is None:
+                raise HTTPException(status_code=404, detail="Feedback not found")
+            return feedback
+        except HTTPException as http_exc:
+            raise http_exc
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
