@@ -34,10 +34,10 @@ chatgpt = AzureChatOpenAI(
 )
 
 SYSTEM_TEMPLATE = """"
-                너는 소비내역에 대해 피드백 해주는 인공지능이야
-                내가 {consumptions}를 알려줄테니까 너는 나의 소비내역들의 피드백을 알려줘. 100자 이내 문장으로만 말해.
-                형식은
-                피드백:
+                너는 소비내역에 대해 피드백 해주는 인공지능이야.
+                내가 {consumptions}를 알려줄테니까 너는 나의 소비내역들의 feedback을 말해
+                사실에 대해 말하지 말고, 소비습관에 대한 도움이 되는 너의 의견을 말해.
+                두 문장으로 요약해서 무조건 완전한 문장으로 말해.
                 """
 HUMAN_TEMPLATE = (
     '{consumptions}'
