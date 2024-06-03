@@ -1,3 +1,3 @@
-from decouple import Config
+from decouple import Config, RepositoryEnv
 
-config = Config('.env')
+config = Config(RepositoryEnv('.env'))
