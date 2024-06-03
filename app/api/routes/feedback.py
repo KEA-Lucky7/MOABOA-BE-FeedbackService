@@ -19,10 +19,10 @@ def read_feedback(post_id: int, db: Session = Depends(get_db)):
 @feedbackRouter.post("", response_model=dto.PostFeedbackRead)
 def create_feedback(consumptions: dto.UserConsumptions, db: Session = Depends(get_db)):
     try:
-        # Check if feedback for the given post_id already exists
         existing_feedback = db.query(PostFeedback).filter(PostFeedback.post_id == consumptions.post_id).first()
         if existing_feedback:
             raise HTTPException(status_code=400, detail="Feedback for this post already exists")
+
         # 피드백 생성
         feedback = FeedbackService.create_feedback(consumptions)
         post_feedback_create = dto.PostFeedbackCreate(post_id=consumptions.post_id, feedback=feedback)
