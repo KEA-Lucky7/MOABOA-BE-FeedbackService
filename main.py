@@ -19,9 +19,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @feedbackRouter.get("/")
 async def root():
     return {"message": "Hello World"}
+
 
 @feedbackRouter.get("/hello/{name}")
 async def say_hello(name: str):

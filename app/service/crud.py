@@ -2,8 +2,9 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.db import SessionLocal
-from app.model.dao import dao
 from app.model.domain import entity
+from app.model.dto import dto
+from app.service import gpt_prompt
 
 
 # Dependency
@@ -16,7 +17,7 @@ def get_db():
 
 class FeedbackService:
     @staticmethod
-    def get_feedback(db: Session, i: int):
+    def get_feedback(i: int, db: Session):
         try:
             feedbacks = db.query(entity.PostFeedback).offset(i).limit(1).all()
             return feedbacks
@@ -24,9 +25,9 @@ class FeedbackService:
             raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
-    def create_feedback(db: Session, feedback: dao.PostFeedbackCreate):
+    def save_feedback(feedback: dto.PostFeedbackCreate, db: Session):
         try:
-            db_feedback = entity.PostFeedback(feedback=feedback.feedback)
+            db_feedback = entity.PostFeedback(feedback)
             db.add(db_feedback)
             db.commit()
             db.refresh(db_feedback)
@@ -34,3 +35,7 @@ class FeedbackService:
         except Exception as e:
             db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
+
+    @staticmethod
+    def create_feedback(consumptions: dto.UserConsumptions):
+        return gpt_prompt.create_feedback(consumptions)
