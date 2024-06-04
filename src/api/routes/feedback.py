@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.service.crud import FeedbackService, get_db
+from src.service.crud import FeedbackService, get_db
 from ...core.db_class import PostFeedback
 from ...model.dto import dto
 

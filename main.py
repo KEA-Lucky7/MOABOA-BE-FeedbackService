@@ -3,8 +3,8 @@ import sys
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app.api.routes.feedback import feedbackRouter
-from app.core.db import Base, engine
+from src.api.routes.feedback import feedbackRouter
+from src.core.db import Base, engine
 
 app = FastAPI()
 app.include_router(feedbackRouter, prefix="/api/feedback", tags=["feedback"])
