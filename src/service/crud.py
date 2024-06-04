@@ -1,10 +1,10 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from app.core.db import SessionLocal
-from app.core.db_class import PostFeedback
-from app.model.dto import dto
-from app.service import gpt_prompt
+from src.core.db import SessionLocal
+from src.core.db_class import PostFeedback
+from src.model.dto import dto
+from src.service import gpt_prompt
 
 
 # Dependency

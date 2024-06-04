@@ -10,8 +10,8 @@ from langchain.prompts import (
 
 from langchain.chat_models import AzureChatOpenAI
 
-import app.model.dto.dto
-from app.core.config import config
+import src.model.dto.dto
+from src.core.config import config
 
 AZURE_OPENAI_API_KEY = config('OPENAI_API_KEY')
 OPENAI_API_VERSION = '2024-02-01'
@@ -44,7 +44,7 @@ HUMAN_TEMPLATE = (
 )
 
 
-def create_feedback(request: app.model.dto.dto.UserConsumptions):
+def create_feedback(request: src.model.dto.dto.UserConsumptions):
     if not request.post_id or not request.consumption_history:
         raise HTTPException(status_code=400, detail="Missing required parameters: post_id or consumption_history")
 

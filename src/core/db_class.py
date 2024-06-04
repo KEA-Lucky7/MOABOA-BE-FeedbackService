@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, DateTime, VARCHAR
 
-from app.core.db import Base
+from src.core.db import Base
 
 
 class PostFeedback(Base):
