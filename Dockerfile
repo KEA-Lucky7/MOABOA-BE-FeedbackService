@@ -1,14 +1,14 @@
 FROM python:3.9
 
 # Set work directory
-WORKDIR /app
+COPY . /src
+WORKDIR /src
 
 # Install dependencies
-COPY ./requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Copy project
-COPY ./app /app
+# EXPOSE PORT
+EXPOSE 8000
 
 # Run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
