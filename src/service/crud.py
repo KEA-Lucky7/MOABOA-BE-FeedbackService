@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
@@ -49,3 +51,20 @@ class FeedbackService:
     @staticmethod
     def create_feedback(consumptions: dto.UserConsumptions):
         return gpt_prompt.create_feedback(consumptions)
+
+    @staticmethod
+    def update_feedback(request: dto.PostFeedbackUpdate, db: Session):
+        try:
+            existing_feedback = db.query(PostFeedback).filter(PostFeedback.post_id == request.post_id).first()
+            existing_feedback.feedback = request.feedback
+            existing_feedback.updated_at = datetime.now()
+
+            db.add(existing_feedback)
+            db.commit()
+            db.refresh(existing_feedback)
+            return existing_feedback
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
+
+
